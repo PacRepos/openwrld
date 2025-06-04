@@ -1,11 +1,44 @@
-var clicks = 0;
-var manualClickMult = 1;
-var wasCreated = false;
+/* 
+***********************************************
+            WELCOME TO GONE v1.0.0
 
-var cBought = [false, false];
-var clickers = [0, 0];
+            TODO:
 
-var cps = 0;
+            	-make the game!
+*********************************************** 
+*/
+/*
+function dismiss() {
+    setCookie("consent", "dismissed", 365)
+    if (getCookie("consent") == "dismissed") {
+        document.getElementById("cookie-banner").remove();
+    }
+}
+*/
+
+// map position locations
+var x = 9;
+var y = 18;
+
+document.addEventListener("keydown", function (e) {
+    if (e.key === 'w' || e.key === 'ArrowUp') {
+        if (y > 1) {
+            y--;
+        }
+    } else if (e.key === 's' || e.key === 'ArrowDown') {
+        if (y < 18) {
+            y++;
+        }
+    } else if (e.key === 'd' || e.key === 'ArrowRight') {
+        if (x < 17) {
+            x++;
+        }
+    } else if (e.key === 'a' || e.key === 'ArrowLeft') {
+        if (x > 2) {
+            x--;
+        }
+    }
+});
 
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
@@ -26,100 +59,72 @@ function getCookie(cname) {
             return c.substring(name.length, c.length);
         }
     }
-    return "";
+    return "error";
 }
 
 function eraseCookie(cname) {
     setCookie(cname, "", -1);
 }
 
-function addShopButtons() {
-    var div = document.getElementById("shop");
-    if (clicks >= 50 && wasCreated == false) {
-        var btn = document.createElement("button");
-        div.append(btn);
-        btn.setAttribute("id", "mupg1");
-        document.getElementById("mupg1").innerHTML = "Gain a x2 Multiplier to clicking manually for 50 clicks!";
-        wasCreated = true;
-        document.getElementById("mupg1").onclick = function() {
-            if (clicks >= 50) {
-                clicks = clicks - 50;
-                manualClickMult *= 2;
-                this.remove();
-            }
-        }
-    }
-
-    if (clicks >= 50 && !cBought[0]) {
-        var c1btn = document.createElement("button");
-        div.append(c1btn);
-        c1btn.setAttribute("id", "cupg1");
-        document.getElementById("cupg1").innerHTML = "Purchase an automatic tier 1 clicker that gives 1 click per second";
-        document.getElementById("cupg1").onclick = function() {
-            if (clicks >= 50) {
-                cBought[0] = true;
-                clicks = clicks - 50;
-                clickers[0]++;
-            }
-        }
-    }
-}
-
 function main() {
-    clicks = getCookie("clickamt");
-    manualClickMult = getCookie("manualClickMult");
-    wasCreated = getCookie("created");
-    cBought = getCookie("bought");
-    if (manualClickMult == null || manualClickMult == "") {
-        manualClickMult = 1;
-    }
-    if (clicks == "" || clicks == null) {
-        clicks = 0;
+    var cMap = "begin";
+    /*
+	if (getCookie("consent") == "dismissed") {
+        document.getElementById("cookie-banner").remove();
     } else {
-        clicks = Number(clicks);
+        document.getElementById("cookietxt").innerHTML = "I use cookies to keep your progress.";
+        cookieButton = document.getElementById('cookie-dismiss');
+        cookieButton.onclick = dismiss();
+    }
+    */
+
+    var map1 = [
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", "*", " ", " ", " ", "☐", " ", " ", " ", " ", "*", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", "|", " ", " ", " ", " ", " ", " ", " ", " ", "|", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", "*", " ", " ", " ", " ", " ", "|", " ", " ", " ", "|", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", "|", " ", " ", " ", " ", " ", "|", " ", " ", " ", "|", " ", " ", " ", " ", " ", "*", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", "|", " ", " ", " ", "|", " ", " ", "*", " ", " ", "|", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", "/", " ", " ", " ", "\\", " ", " ", "|", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", "/", " ", " ", " ", " ", " ", "\\", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", "|", " ", " ", " ", " ", " ", "|", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", "*", " ", "|", " ", " ", " ", " ", " ", "|", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", "|", " ", "|", " ", " ", " ", " ", " ", "|", "*", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", "|", " ", " ", "G", " ", " ", "|", "|", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", "|", " ", " ", "O", " ", " ", "|", " ", " ", " ", " ", "b", "y", " "],
+        [" ", " ", " ", " ", " ", " ", "|", " ", " ", "N", " ", " ", "|", " ", " ", " ", " ", "p", "a", "c"],
+        [" ", " ", " ", " ", " ", " ", "|", " ", " ", "E", " ", " ", "|", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", "*", " ", " ", " ", "|", " ", " ", ".", " ", " ", "|", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", "|", " ", " ", " ", "|", " ", " ", " ", " ", " ", "|", " ", " ", "*", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", "|", " ", " ", " ", " ", " ", "|", " ", " ", "|", " ", " ", " ", " "]
+    ];
+
+    // replace default spawn with last known map + coords
+    if (getCookie("x") != "error") {
+        console.log("yippee");
+        x = getCookie("x");
+        y = getCookie("y");
+        cMap = getCookie("cMap");
     }
 
     setInterval(function() {
-        document.getElementById("clickcount").innerHTML = "You have " + clicks + " clicks!";
-        document.getElementById("clicker").innerHTML = "Get +" + manualClickMult + " Clicks!";
+        setCookie("map", cMap, 364); // current location of player on the maps
+        setCookie("x", x, 364);
+        setCookie("y", y, 364);
+        console.log(getCookie("map"));
+    }, 1000);
 
-        for (var i = 1; i <= clickers.length; i++) {
-            cps += i * clickers[i];
+    setInterval(function() {
+
+        if (cMap == "begin") {
+            document.getElementById("display").innerHTML = map1[y - 1][x - 2] + map1[y - 1][x - 1] + map1[y - 1][x] + map1[y - 1][x + 1] + map1[y - 1][x + 2] + "<br>" +
+            map1[y][x - 2] + map1[y][x - 1] + "o" + map1[y][x + 1] + map1[y][x + 2] + "<br>" +
+            map1[y + 1][x - 2] + map1[y + 1][x - 1] + map1[y + 1][x] + map1[y + 1][x + 1] + map1[y + 1][x + 2];
+        } else if (cMap == "") {
+
         }
         
-        if (cBought[0]) {
-            document.getElementById("active").innerHTML = "You have " + clickers[0] + " tier 1 clickers giving " + clickers[0] + " clicks per second.";
-        } else if (cBought[1]) {
-             document.getElementById("active").innerHTML = "You have " + clickers[0] + " tier 1 clickers giving " + clickers[0] + " clicks per second.<br>You have " + clickers[1] + " tier 2 clickers giving " + (2 * clickers[1]) + " clicks per second.<br>Your total clicks per second is " + cps + ".";
-        } else {
-            document.getElementById("active").innerHTML = "";
-        }
-        
-        setCookie("clickamt", clicks, 365);
-        setCookie("manualClickMult", manualClickMult, 365);
-        setCookie("created", wasCreated, 365);
-        setCookie("bought", cBought, 365);
-        
-        addShopButtons();
-        
-        if (clicks >= 1000000000) {
-            document.getElementById("clickcount").innerHTML = "You're funny lil bro";
-            document.getElementById("clicker").innerHTML = "This is a work in progress so don't exploit it";
-            document.getElementById("clicker").onclick = function niceTry() {
-                clicks = 0;
-                manualClickMult = 1;
-            }
-        }    
-    }, 10);
-
-    document.getElementById("clicker").onclick = function click() {
-        clicks = Number(clicks) + Number(manualClickMult);
-    }
-
-    document.getElementById("rs").onclick = function reset() {
-        clicks = 0;
-        manualClickMult = 1;
-        wasCreated = false;
-        cBought = [false, false];
-    }
+    }, 50);
 }
